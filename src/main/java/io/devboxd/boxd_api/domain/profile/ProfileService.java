@@ -9,8 +9,11 @@ public interface ProfileService {
 
     List<Profile> getAllFollowing();
 
-    List<Post> getAllPost();
+    Profile getByUsername(String username);
 
-    Profile getByUsername(String username, List<Profile> listToGet);
+    Profile create(Profile profile);
 
+    boolean delete(Long id);
+
+    Profile update(Long id, Profile profile);
 }
