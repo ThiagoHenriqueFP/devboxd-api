@@ -26,7 +26,4 @@ public class User {
 
     @CreatedDate
     private LocalDateTime createdAt;
-
-    @OneToMany(mappedBy = "user")
-    private List<Post> posts;
 }
