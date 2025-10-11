@@ -36,8 +36,8 @@ public interface ProfileRepository extends JpaRepository<Profile, Long> {
     @Modifying
     @Transactional
     @Query("""
-        UPDATE Profile p 
-        SET 
+        UPDATE Profile p
+        SET
             p.firstName = COALESCE(:firstName, p.firstName),
             p.lastName = COALESCE(:lastName, p.lastName),
             p.bio = COALESCE(:bio, p.bio),
