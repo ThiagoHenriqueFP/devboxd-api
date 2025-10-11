@@ -24,6 +24,8 @@ public class Profile {
 
    private String lastName;
 
+   private String bio;
+
    @CreatedDate
    private LocalDateTime createdAt;
 
