@@ -4,7 +4,6 @@ import io.devboxd.boxd_api.domain.post.Post;
 import io.devboxd.boxd_api.domain.user.User;
 import jakarta.persistence.*;
 import lombok.Data;
-import org.hibernate.annotations.Fetch;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;

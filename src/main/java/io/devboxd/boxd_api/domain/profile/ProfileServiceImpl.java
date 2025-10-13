@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ProfileServiceImpl implements ProfileService{
@@ -29,12 +28,12 @@ public class ProfileServiceImpl implements ProfileService{
 
 
     @Override
-    public Optional<Profile> getByUsername(String username) {
-        return profileRepository.findByUsername(username);
+    public Profile getByUsername(String username) {
+        return profileRepository.findByUsername(username).orElseThrow( () -> new EntityNotFoundException("username not found"));
     }
 
     @Override
-    public Optional<Profile> getByUser(User user) {return profileRepository.findByUser(user);}
+    public Profile getByUser(User user) {return profileRepository.findByUser(user).orElseThrow( () -> new EntityNotFoundException("user not found"));}
 
     @Override
     @Modifying
