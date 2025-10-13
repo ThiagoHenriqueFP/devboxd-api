@@ -2,11 +2,11 @@ package io.devboxd.boxd_api.domain.profile;
 
 import io.devboxd.boxd_api.domain.user.User;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProfileServiceImpl implements ProfileService{
@@ -29,23 +29,20 @@ public class ProfileServiceImpl implements ProfileService{
 
 
     @Override
-    public Profile getByUsername(String username) {
+    public Optional<Profile> getByUsername(String username) {
         return profileRepository.findByUsername(username);
     }
 
     @Override
-    public Profile getByUser(User user) {return profileRepository.findByUser(user);
-    }
+    public Optional<Profile> getByUserId(Long userId) {return profileRepository.findByUserId(userId);}
 
     @Override
-    @Transactional
     @Modifying
     public Profile create(Profile profile) {
         return profileRepository.save(profile);
     }
 
     @Override
-    @Transactional
     @Modifying
     public boolean delete(Long id) {
         if(!profileRepository.existsById(id)) return false;
@@ -55,7 +52,6 @@ public class ProfileServiceImpl implements ProfileService{
     }
 
     @Override
-    @Transactional
     @Modifying
     public boolean update(Long id, Profile profile) {
         Profile existing = profileRepository.findById(id)

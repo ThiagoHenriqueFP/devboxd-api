@@ -1,6 +1,5 @@
 package io.devboxd.boxd_api.domain.profile;
 
-import io.devboxd.boxd_api.domain.post.Post;
 import io.devboxd.boxd_api.domain.user.User;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,11 +15,9 @@ public interface ProfileRepository extends JpaRepository<Profile, Long> {
     @Override
     Optional<Profile> findById(Long id);
 
-    @Query("SELECT p FROM Profile p WHERE p.user = :user")
-    Profile findByUser(User user);
+    Optional<Profile> findByUser(User user);
 
-    @Query("SELECT p.user FROM Profile p WHERE p.user.username = :username")
-    Profile findByUsername(String username);
+    Optional<Profile> findByUsername(String username);
 
     @Query("SELECT p.followers FROM Profile p WHERE p.id = :id")
     List<Profile> findFollowersById(Long id);
