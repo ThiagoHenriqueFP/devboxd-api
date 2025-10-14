@@ -9,9 +9,9 @@ public interface ProfileService {
 
     List<Profile> getAllFollowing(Long id);
 
-    Optional<Profile> getByUsername(String username);
+    Profile getByUsername(String username);
 
-    Optional<Profile> getByUser(User user);
+    Profile getByUser(User user);
 
     Profile create(Profile profile);
 
