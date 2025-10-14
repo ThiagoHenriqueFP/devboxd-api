@@ -25,6 +25,8 @@ public abstract class Content {
         this.author = author;
     }
 
+    abstract boolean create();
+
     abstract boolean delete();
 
     private boolean edit(String body){
