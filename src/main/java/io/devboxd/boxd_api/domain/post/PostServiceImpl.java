@@ -19,6 +19,6 @@ public class PostServiceImpl implements PostService{
 
     @Override
     public List<Post> getAllPostByAuthorId(Long id) {
-        return List.of();
+        return postRepository.findByAuthorId(id);
     }
 }
