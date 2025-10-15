@@ -36,4 +36,13 @@ public class ControllerAdvice {
 
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(PasswordNotMatchException.class)
+    protected ResponseEntity<Object> handlePasswordNotMatchException(
+            PasswordNotMatchException ex
+    ) {
+        var response = new ExceptionDefaultDTO<>(ex.reasons);
+
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
 }
