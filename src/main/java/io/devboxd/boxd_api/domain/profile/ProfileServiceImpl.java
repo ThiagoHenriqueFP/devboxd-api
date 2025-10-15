@@ -26,12 +26,6 @@ public class ProfileServiceImpl implements ProfileService{
         return profileRepository.findFollowingById(id);
     }
 
-
-    @Override
-    public Profile getByUsername(String username) {
-        return profileRepository.findByUsername(username).orElseThrow( () -> new EntityNotFoundException("username not found"));
-    }
-
     @Override
     public Profile getByUser(User user) {return profileRepository.findByUser(user).orElseThrow( () -> new EntityNotFoundException("user not found"));}
 

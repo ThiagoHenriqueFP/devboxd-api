@@ -17,12 +17,10 @@ public interface ProfileRepository extends JpaRepository<Profile, Long> {
 
     Optional<Profile> findByUser(User user);
 
-    Optional<Profile> findByUsername(String username);
-
-    @Query("SELECT p.followers FROM Profile p WHERE p.id = :id")
+    @Query("SELECT f FROM Profile p JOIN p.followers f WHERE p.id = :id")
     List<Profile> findFollowersById(Long id);
 
-    @Query("SELECT p.following FROM Profile p WHERE p.id = :id")
+    @Query("SELECT f FROM Profile p JOIN p.following f WHERE p.id = :id")
     List<Profile> findFollowingById(Long id);
 
     @Modifying

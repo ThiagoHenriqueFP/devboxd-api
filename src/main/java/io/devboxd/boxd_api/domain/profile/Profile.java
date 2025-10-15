@@ -29,21 +29,26 @@ public class Profile {
    private LocalDateTime createdAt;
 
    @OneToOne
-   @Column(unique = true ,nullable = false)
+   @JoinColumn(unique = true, nullable = false)
    private User user;
 
    @ManyToMany(fetch = FetchType.LAZY)
    @JoinTable(
-           name = "profile_following",
+           name = "profile_follow",
            joinColumns = @JoinColumn(name = "follower_id"),
            inverseJoinColumns =  @JoinColumn(name = "following_id")
    )
    private List<Profile> following;
 
-   @ManyToMany(mappedBy = "profile", fetch = FetchType.LAZY)
+   @ManyToMany(fetch = FetchType.LAZY)
+   @JoinTable(
+           name = "profile_follow",
+           joinColumns = @JoinColumn(name = "following_id"),
+           inverseJoinColumns =  @JoinColumn(name = "follower_id")
+   )
    private List<Profile> followers;
 
-   @OneToMany(mappedBy = "profile", fetch = FetchType.LAZY)
+   @OneToMany(fetch = FetchType.LAZY)
    private List<Post> posts;
 
 }
