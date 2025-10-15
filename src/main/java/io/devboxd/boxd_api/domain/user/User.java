@@ -1,5 +1,6 @@
 package io.devboxd.boxd_api.domain.user;
 
+import io.devboxd.boxd_api.application.user.dto.GetUserDTO;
 import io.devboxd.boxd_api.domain.post.Post;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -24,6 +25,12 @@ public class User {
 
     private String password;
 
+    private Boolean isActive = true;
+
     @CreatedDate
     private LocalDateTime createdAt;
+
+    public GetUserDTO toDTO() {
+        return new GetUserDTO(this.getUsername(), this.getEmail(), this.getCreatedAt());
+    }
 }
