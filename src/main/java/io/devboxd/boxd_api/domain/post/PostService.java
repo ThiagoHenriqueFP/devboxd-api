@@ -10,4 +10,7 @@ public interface PostService {
 
     List<Post> getAllPostByAuthorId(Long id);
 
+    List<Post> getAllPostByAuthorUsername(String username);
+
+    Post getPostByBody(String body);
 }
