@@ -1,6 +1,7 @@
 package io.devboxd.boxd_api.domain.post;
 
 import io.devboxd.boxd_api.domain.profile.Profile;
+import jakarta.persistence.EntityNotFoundException;
 
 import java.util.List;
 
@@ -20,5 +21,15 @@ public class PostServiceImpl implements PostService{
     @Override
     public List<Post> getAllPostByAuthorId(Long id) {
         return postRepository.findByAuthorId(id);
+    }
+
+    @Override
+    public List<Post> getAllPostByAuthorUsername(String username) {
+        return postRepository.findByAuthorUsername(username);
+    }
+
+    @Override
+    public Post getPostByBody(String body) {
+        return this.postRepository.findByBody(body).orElseThrow( () -> new EntityNotFoundException("post not found"));
     }
 }
