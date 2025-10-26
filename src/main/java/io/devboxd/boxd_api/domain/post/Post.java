@@ -1,7 +1,8 @@
 package io.devboxd.boxd_api.domain.post;
 
-import io.devboxd.boxd_api.domain.comments.Comment;
+import io.devboxd.boxd_api.domain.comment.Comment;
 import io.devboxd.boxd_api.domain.content.Content;
+import io.devboxd.boxd_api.domain.photo.Photo;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -21,7 +22,8 @@ public class Post extends Content {
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments;
 
-    private List<String> photos;
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Photo> photos;
 
     @Override
     protected boolean create() {
