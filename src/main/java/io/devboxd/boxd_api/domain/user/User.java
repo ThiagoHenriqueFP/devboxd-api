@@ -2,15 +2,18 @@ package io.devboxd.boxd_api.domain.user;
 
 import io.devboxd.boxd_api.application.user.dto.GetUserDTO;
 import io.devboxd.boxd_api.domain.savedPost.Saved;
+import io.devboxd.boxd_api.domain.user.role.Role;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-// nao precisa definir o nome da tabela, mas pode ser considerada boa pratica
-@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "users")
 public class User {
@@ -18,7 +21,7 @@ public class User {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false)
-    String username;
+    private String username;
     // por padrao todas sao nullable
     @Column(unique = true, nullable = false)
     private String email;
@@ -37,6 +40,14 @@ public class User {
             orphanRemoval = true
     )
     private List<Saved> savedPosts;
+
+    @OneToMany
+    @JoinTable(
+            name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name="role_id")
+    )
+    private List<Role> roles;
 
     public GetUserDTO toDTO() {
         return new GetUserDTO(this.getUsername(), this.getEmail(), this.getCreatedAt());
