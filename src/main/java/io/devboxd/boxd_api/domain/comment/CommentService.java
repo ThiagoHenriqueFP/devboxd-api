@@ -1,4 +1,4 @@
-package io.devboxd.boxd_api.domain.comments;
+package io.devboxd.boxd_api.domain.comment;
 
 import io.devboxd.boxd_api.domain.profile.Profile;
 
