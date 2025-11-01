@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
@@ -18,7 +19,7 @@ public abstract class Content {
     @CreatedDate
     private LocalDateTime createdAt;
 
-    @CreatedDate
+    @LastModifiedDate
     private LocalDateTime updatedAt;
 
     private String body;
@@ -33,7 +34,7 @@ public abstract class Content {
 
     protected abstract boolean delete();
 
-    private boolean edit(String body){
+    protected boolean edit(String body){
         if(body != null && !body.equals(" ")) {
             this.body = body;
             updatedAt = LocalDateTime.now();

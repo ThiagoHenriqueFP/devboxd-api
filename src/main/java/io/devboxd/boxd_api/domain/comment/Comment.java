@@ -1,13 +1,14 @@
 package io.devboxd.boxd_api.domain.comment;
 
 import io.devboxd.boxd_api.domain.content.Content;
+import io.devboxd.boxd_api.domain.like.Like;
 import io.devboxd.boxd_api.domain.post.Post;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -18,6 +19,9 @@ public class Comment extends Content {
     @ManyToOne
     @JoinColumn(name = "post_id")
     private Post post;
+
+    @OneToMany(mappedBy = "content", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Like> likes = new ArrayList<>();
 
     @Override
     protected boolean create() {
