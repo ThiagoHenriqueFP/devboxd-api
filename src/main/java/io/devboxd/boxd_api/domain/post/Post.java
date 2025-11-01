@@ -2,11 +2,13 @@ package io.devboxd.boxd_api.domain.post;
 
 import io.devboxd.boxd_api.domain.comment.Comment;
 import io.devboxd.boxd_api.domain.content.Content;
+import io.devboxd.boxd_api.domain.like.Like;
 import io.devboxd.boxd_api.domain.photo.Photo;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
@@ -24,6 +26,9 @@ public class Post extends Content {
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Photo> photos;
+
+    @OneToMany(mappedBy = "content", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Like> likes = new ArrayList<>();
 
     @Override
     protected boolean create() {

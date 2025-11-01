@@ -32,7 +32,7 @@ public class SecurityCustomConfiguration {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("*").authenticated()
-                        .requestMatchers(SecurityCustomConfiguration.URL_WHITELIST.toArray(new String[0])).permitAll()
+                        .requestMatchers("/swagger/**").permitAll()
                         .requestMatchers(SecurityCustomConfiguration.URL_ADMIN.toArray(new String[0])).hasRole("ADMIN")
                 ).addFilterBefore(userAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
