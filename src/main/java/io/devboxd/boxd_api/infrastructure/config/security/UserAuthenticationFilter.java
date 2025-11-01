@@ -15,6 +15,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class UserAuthenticationFilter extends OncePerRequestFilter {
@@ -51,7 +53,8 @@ public class UserAuthenticationFilter extends OncePerRequestFilter {
 
     private boolean checkIfEndpointIsNotPublic(HttpServletRequest request) {
         String requestURI = request.getRequestURI();
-        return !SecurityCustomConfiguration.URL_WHITELIST.contains(requestURI);
+        List<String> parsed =SecurityCustomConfiguration.URL_WHITELIST.stream().map(it -> it.replaceAll("\\*\\*", "")).toList();
+        return parsed.stream().filter(requestURI::startsWith).toList().isEmpty();
     }
 
     private String recoveryToken(HttpServletRequest request) {
