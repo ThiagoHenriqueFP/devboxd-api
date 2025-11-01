@@ -1,17 +1,15 @@
 package io.devboxd.boxd_api.application.auth.dto;
 
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
-@Valid
 public record SignUpDTO(
-        @NotBlank
+        @NotBlank(message = "username must not be empty")
         String username,
-        @NotBlank
+        @NotBlank(message = "email is mandatory")
         @Email
         String email,
-        @NotBlank
+        @NotBlank(message = "password is mandatory")
         String passwd
 ) {
 }
