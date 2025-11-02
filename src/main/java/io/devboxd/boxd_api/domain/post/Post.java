@@ -1,8 +1,9 @@
 package io.devboxd.boxd_api.domain.post;
 
+import io.devboxd.boxd_api.application.post.dto.PostResponseDTO;
 import io.devboxd.boxd_api.domain.comment.Comment;
 import io.devboxd.boxd_api.domain.content.Content;
-import io.devboxd.boxd_api.domain.like.Like;
+//import io.devboxd.boxd_api.domain.like.Like;
 import io.devboxd.boxd_api.domain.photo.Photo;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -27,8 +28,8 @@ public class Post extends Content {
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Photo> photos;
 
-    @OneToMany(mappedBy = "content", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Like> likes = new ArrayList<>();
+//    @OneToMany(mappedBy = "content", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<Like> likes = new ArrayList<>();
 
     @Override
     protected boolean create() {
@@ -38,6 +39,18 @@ public class Post extends Content {
     @Override
     protected boolean delete() {
         return false;
+    }
+
+    public PostResponseDTO toDto() {
+        return new PostResponseDTO(
+                this.getHeader(),
+                this.getBody(),
+                this.getAuthor(),
+                this.getPhotos(),
+                this.getViews(),
+                this.getCreatedAt(),
+                this.getUpdatedAt()
+        );
     }
 }
 
