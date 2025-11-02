@@ -63,9 +63,7 @@ public class UserServiceImpl implements UserService {
         if (alreadySaved.isEmpty())
             throw new ResponseStatusException(HttpStatus.NO_CONTENT, "The username or password is incorrect!");
 
-        String hashedPassword = passwordEncoder.passwordEncoder().encode(dto.password());
-
-        if (passwordEncoder.passwordEncoder().matches(alreadySaved.get().getPassword(), hashedPassword))
+        if (passwordEncoder.passwordEncoder().matches(dto.password(), alreadySaved.get().getPassword()))
             return alreadySaved;
 
         return Optional.empty();

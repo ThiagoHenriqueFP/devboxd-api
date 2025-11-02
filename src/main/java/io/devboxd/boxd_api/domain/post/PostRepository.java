@@ -1,6 +1,7 @@
 package io.devboxd.boxd_api.domain.post;
 
 import io.devboxd.boxd_api.domain.profile.Profile;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -15,8 +16,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     @Query("SELECT p FROM Post p WHERE p.author.user.username = :username")
     List<Post> findByAuthorUsername(String username);
 
-    @Query("SELECT p FROM Post p WHERE p.author.id = :id")
-    List<Post> findByAuthorId(@Param("id") Long id);
+    List<Post> findPostsByAuthor_Id(Long authorId, Pageable pageable);
 
     Optional<Post> findByBody(String body);
 

@@ -19,7 +19,16 @@ import java.util.List;
 public class SecurityCustomConfiguration {
     private final UserAuthenticationFilter userAuthenticationFilter;
 
-    static final List<String> URL_WHITELIST = List.of("/auth", "/auth/**", "/swagger/**", "/h2-console");
+    static final String[] URL_WHITELIST = {
+            "/auth",
+            "/auth/**",
+            "/h2-console",
+            "/swagger-ui/**",
+            "/swagger-ui.html",
+            "/v3/api-docs/**",
+            "/swagger-resources/**",
+            "/webjars/**"
+    };
     static final List<String> URL_ADMIN = List.of("/users/**");
 
     public SecurityCustomConfiguration(UserAuthenticationFilter userAuthenticationFilter) {
@@ -31,9 +40,9 @@ public class SecurityCustomConfiguration {
         return httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("*").authenticated()
-                        .requestMatchers("/swagger/**").permitAll()
+                        .requestMatchers(URL_WHITELIST).permitAll()
                         .requestMatchers(SecurityCustomConfiguration.URL_ADMIN.toArray(new String[0])).hasRole("ADMIN")
+                        .anyRequest().authenticated()
                 ).addFilterBefore(userAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }

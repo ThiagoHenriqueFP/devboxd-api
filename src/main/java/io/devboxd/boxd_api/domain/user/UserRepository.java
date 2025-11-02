@@ -2,10 +2,12 @@ package io.devboxd.boxd_api.domain.user;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 // criacao basica dos repositorios para acesso de dados de usuario
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByUsernameAndIsActive(String username, Boolean isActive);
