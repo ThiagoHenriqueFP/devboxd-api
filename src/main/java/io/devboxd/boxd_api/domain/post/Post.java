@@ -1,21 +1,36 @@
 package io.devboxd.boxd_api.domain.post;
 
 import io.devboxd.boxd_api.domain.comment.Comment;
-import io.devboxd.boxd_api.domain.content.Content;
 import io.devboxd.boxd_api.domain.like.Like;
 import io.devboxd.boxd_api.domain.photo.Photo;
+import io.devboxd.boxd_api.domain.profile.Profile;
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
 @Table(name = "posts")
-public class Post extends Content {
+public class Post{
+
+    @CreatedDate
+    private LocalDateTime createdAt;
+
+    @LastModifiedDate
+    private LocalDateTime updatedAt;
+
+    private String body;
+
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    protected Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Profile author;
 
     private String header;
 
@@ -27,18 +42,9 @@ public class Post extends Content {
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Photo> photos;
 
-    @OneToMany(mappedBy = "content", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Like> likes = new ArrayList<>();
 
-    @Override
-    protected boolean create() {
-        return false;
-    }
-
-    @Override
-    protected boolean delete() {
-        return false;
-    }
 }
 
 

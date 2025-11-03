@@ -8,5 +8,7 @@ public interface LikeRepository extends JpaRepository<Like, Long> {
 
     Optional<Like> findByProfileId(Long id);
 
-    Optional<Like> findByContentId(Long id);
+    Long countByPostId(Long id);
+
+    Long countByCommentId(Long id);
 }

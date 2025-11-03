@@ -1,23 +1,26 @@
 package io.devboxd.boxd_api.domain.like;
 
-import io.devboxd.boxd_api.domain.content.Content;
+import io.devboxd.boxd_api.domain.comment.Comment;
+import io.devboxd.boxd_api.domain.post.Post;
 import io.devboxd.boxd_api.domain.profile.Profile;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
 
 @Data
 @Entity
+@Getter
+@Setter
 @Table(name = "likes")
 public class Like {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private Long amount;
 
     @CreatedDate
     private LocalDateTime createdAt;
@@ -27,6 +30,10 @@ public class Like {
     private Profile profile;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "content_id", nullable = false)
-    private Content content;
+    @JoinColumn(name = "post_id")
+    private Post post;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "comment_id")
+    private Comment comment;
 }
