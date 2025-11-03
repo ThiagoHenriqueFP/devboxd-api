@@ -51,9 +51,7 @@ public class UserAuthenticationFilter extends OncePerRequestFilter {
 
 
     private boolean checkIfEndpointIsNotPublic(HttpServletRequest request) {
-        String requestURI = request.getRequestURI();
-        List<String> parsed =SecurityCustomConfiguration.URL_WHITELIST.stream().map(it -> it.replaceAll("\\*\\*", "")).toList();
-        return parsed.stream().filter(requestURI::startsWith).toList().isEmpty();
+        return false;
     }
 
     private String recoveryToken(HttpServletRequest request) {

@@ -1,5 +1,6 @@
 package io.devboxd.boxd_api.domain.post;
 
+import io.devboxd.boxd_api.application.post.dto.PostResponseDTO;
 import io.devboxd.boxd_api.domain.comment.Comment;
 import io.devboxd.boxd_api.domain.like.Like;
 import io.devboxd.boxd_api.domain.photo.Photo;
