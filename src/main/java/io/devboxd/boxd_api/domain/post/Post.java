@@ -46,6 +46,18 @@ public class Post{
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Like> likes = new ArrayList<>();
 
+    public PostResponseDTO toDto() {
+        return new PostResponseDTO(
+                this.getHeader(),
+                this.getBody(),
+                this.getAuthor().toDto(),
+                this.getPhotos(),
+                this.getViews(),
+                this.getCreatedAt(),
+                this.getUpdatedAt()
+        );
+    }
+
 }
 
 
