@@ -9,6 +9,7 @@ import io.devboxd.boxd_api.infrastructure.config.security.jwt.JwtTokenService;
 import io.devboxd.boxd_api.infrastructure.config.userDetails.UserDetailsImpl;
 import io.devboxd.boxd_api.infrastructure.exception.PasswordNotMatchException;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -18,11 +19,11 @@ import java.util.Optional;
 @Service
 public class UserServiceImpl implements UserService {
 
-    private final PasswordEncoderImpl passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final JwtTokenService jwtTokenService;
 
-    public UserServiceImpl(PasswordEncoderImpl passwordEncoder, UserRepository userRepository, JwtTokenService jwtTokenService) {
+    public UserServiceImpl(PasswordEncoder passwordEncoder, UserRepository userRepository, JwtTokenService jwtTokenService) {
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
         this.jwtTokenService = jwtTokenService;
@@ -42,15 +43,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User save(SignUpDTO dto) {
-        Optional<User> alreadySaved = userRepository.findByUsernameAndIsActive(dto.username(), true);
+        List<User> alreadySaved = userRepository.findByUsernameOrEmailAndIsActive(dto.username(), dto.email());
 
-        if (alreadySaved.isPresent())
+        if (!alreadySaved.isEmpty())
             throw new ResponseStatusException(HttpStatus.CONFLICT, "The username is taken!");
 
         User user = new User();
         user.setEmail(dto.email());
         user.setUsername(dto.username());
-        user.setPassword(passwordEncoder.passwordEncoder().encode(dto.passwd()));
+        user.setPassword(passwordEncoder.encode(dto.passwd()));
 
         return userRepository.save(user);
 
@@ -61,9 +62,9 @@ public class UserServiceImpl implements UserService {
         Optional<User> alreadySaved = userRepository.findByUsernameAndIsActive(dto.username(), true);
 
         if (alreadySaved.isEmpty())
-            throw new ResponseStatusException(HttpStatus.NO_CONTENT, "The username or password is incorrect!");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The username or password is incorrect!");
 
-        if (passwordEncoder.passwordEncoder().matches(dto.password(), alreadySaved.get().getPassword()))
+        if (passwordEncoder.matches(dto.password(), alreadySaved.get().getPassword()))
             return alreadySaved;
 
         return Optional.empty();
@@ -75,7 +76,7 @@ public class UserServiceImpl implements UserService {
         if (!errors.isEmpty())
             throw new PasswordNotMatchException(errors);
 
-        return this.passwordEncoder.passwordEncoder().encode(raw);
+        return this.passwordEncoder.encode(raw);
     }
 
     @Override
@@ -87,7 +88,7 @@ public class UserServiceImpl implements UserService {
         
         User user = this.getUser(username);
         String hashedPassword = hashPassword(newPasswd);
-        if (this.passwordEncoder.passwordEncoder().matches(hashedPassword, user.getPassword()))
+        if (this.passwordEncoder.matches(hashedPassword, user.getPassword()))
             throw new ResponseStatusException(HttpStatus.CONFLICT, "The old password is wrong!");
 
         user.setPassword(hashedPassword);

@@ -28,7 +28,7 @@ public class AuthControllerImpl implements AuthController {
     public ResponseEntity<CustomResponseEntity> signIn(SignInDTO signInDTO) {
         var user = this.userService.signIn(signInDTO);
         if (user.isEmpty())
-            throw new ResponseStatusException(HttpStatus.NO_CONTENT);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 
         String jwt = this.userService.getJwt(user.get());
 

@@ -11,6 +11,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.reactive.CorsConfigurationSource;
 
 import java.util.List;
 
@@ -44,6 +46,13 @@ public class SecurityCustomConfiguration {
                         .requestMatchers(SecurityCustomConfiguration.URL_ADMIN.toArray(new String[0])).hasRole("ADMIN")
                         .anyRequest().authenticated()
                 ).addFilterBefore(userAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .cors(cors -> cors.configurationSource(http -> {
+                    CorsConfiguration conf = new CorsConfiguration();
+                    conf.setAllowedHeaders(List.of("*"));
+                    conf.setAllowedOrigins(List.of("*"));
+                    conf.setAllowedMethods(List.of("*"));
+                    return conf;
+                }))
                 .build();
     }
 }
