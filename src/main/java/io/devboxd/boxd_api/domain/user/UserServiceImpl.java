@@ -96,7 +96,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean shadowDelete(String username) {
+    public int shadowDelete(String username) {
         return this.userRepository.shadowDelete(username);
     }
 

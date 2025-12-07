@@ -12,8 +12,10 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-@MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
+@Table(name = "contents")
 public abstract class Content {
 
     @CreatedDate
