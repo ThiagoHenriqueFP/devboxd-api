@@ -17,7 +17,7 @@ public class ControllerAdvice {
             ResponseStatusException.class
     })
     protected ResponseEntity<Object> handleException(ResponseStatusException ex, WebRequest request) {
-        ExceptionDefaultDTO<String> response = new ExceptionDefaultDTO<>(ex.getMessage());
+        ExceptionDefaultDTO<String> response = new ExceptionDefaultDTO<>(ex.getBody().getDetail());
 
         return new ResponseEntity<>(response, ex.getStatusCode());
     }
