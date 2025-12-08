@@ -1,5 +1,6 @@
 package io.devboxd.boxd_api.domain.profile;
 
+import io.devboxd.boxd_api.application.profile.dto.ProfileResponseDTO;
 import io.devboxd.boxd_api.domain.post.Post;
 import io.devboxd.boxd_api.domain.user.User;
 import jakarta.persistence.*;
@@ -50,5 +51,14 @@ public class Profile {
 
    @OneToMany(fetch = FetchType.LAZY)
    private List<Post> posts;
+
+   public ProfileResponseDTO toDto() {
+       return new ProfileResponseDTO(
+               this.getPhoto(),
+               this.getFirstName(),
+               this.getLastName(),
+               this.getBio()
+       );
+   }
 
 }
