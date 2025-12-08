@@ -96,13 +96,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean shadowDelete(String username) {
+    public int shadowDelete(String username) {
         return this.userRepository.shadowDelete(username);
     }
 
     @Override
     public String getJwt(User user) {
         UserDetailsImpl details = new UserDetailsImpl(user);
-        return this.jwtTokenService.generateToken(details);
+        return this.jwtTokenService.generateToken(details, user);
     }
 }

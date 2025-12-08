@@ -14,7 +14,7 @@ public interface UserService {
 
     User updatePassword(String username, String oldPasswd, String newPasswd);
 
-    boolean shadowDelete(String username);
+    int shadowDelete(String username);
 
     String getJwt(User user);
 }

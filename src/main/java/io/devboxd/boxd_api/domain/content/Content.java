@@ -1,0 +1,49 @@
+package io.devboxd.boxd_api.domain.content;
+
+import io.devboxd.boxd_api.domain.profile.Profile;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import java.time.LocalDateTime;
+
+@Getter
+@Setter
+@EntityListeners(AuditingEntityListener.class)
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
+@Table(name = "contents")
+public abstract class Content {
+
+    @CreatedDate
+    private LocalDateTime createdAt;
+
+    @LastModifiedDate
+    private LocalDateTime updatedAt;
+
+    private String body;
+
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    protected Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Profile author;
+
+    protected abstract boolean create();
+
+    protected abstract boolean delete();
+
+    protected boolean edit(String body){
+        if(body != null && !body.equals(" ")) {
+            this.body = body;
+            updatedAt = LocalDateTime.now();
+            return true;
+        }
+
+        return false;
+    }
+
+}

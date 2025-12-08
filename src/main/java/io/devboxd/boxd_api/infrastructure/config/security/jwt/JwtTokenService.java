@@ -4,6 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
+import io.devboxd.boxd_api.domain.user.User;
 import io.devboxd.boxd_api.infrastructure.config.userDetails.UserDetailsImpl;
 import org.springframework.stereotype.Service;
 
@@ -16,14 +17,16 @@ public class JwtTokenService {
     private static final String secret = "umfodendosegredoessachavetemquesergrandeparadificultarbruteforcemasachoquejaestamtgrande";
     private static final String issuer = "devboxd-main-api";
 
-    public String generateToken(UserDetailsImpl user) {
+    public String generateToken(UserDetailsImpl userDetails, User user) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
             return JWT.create()
                     .withIssuer(issuer)
                     .withIssuedAt(creationDate())
                     .withExpiresAt(expirationDate())
-                    .withSubject(user.getUsername())
+                    .withSubject(userDetails.getUsername())
+                    .withClaim("email", user.getEmail())
+                    .withClaim("id", user.getId())
                     .sign(algorithm);
         } catch (IllegalArgumentException | JWTCreationException e) {
             throw new RuntimeException(e);
